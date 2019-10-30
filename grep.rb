@@ -4,6 +4,6 @@ if ARGV.length != 1
 end
 
 contents = File.read('file.txt')
-contents.split(/\r?\n/).each do |line|
-  puts line if line.match?(/.*#{Regexp.quote(ARGV[0])}.*/)
+contents.split(/\r?\n/).each_with_index do |line, index|
+  puts "%d: %s" % [index + 1, line] if line.match?(/.*#{Regexp.quote(ARGV[0])}.*/)
 end
