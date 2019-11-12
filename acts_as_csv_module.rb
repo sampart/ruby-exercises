@@ -59,6 +59,10 @@ class CsvRow
     @headers.each{|header| puts header}
     super
   end
+
+  def respond_to_missing?(method_name, include_private = false)
+    @headers.include? method_name.to_s || super
+  end
 end
 
 
