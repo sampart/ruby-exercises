@@ -54,6 +54,11 @@ class CsvRow
       super
     end
   end
+
+  def methods
+    @headers.each{|header| puts header}
+    super
+  end
 end
 
 
