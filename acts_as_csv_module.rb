@@ -13,10 +13,10 @@ module ActsAsCsv
     def read
       @csv_contents = []
       filename = self.class.to_s.downcase + '.txt'
-      file = File.new(filename)
-      @headers = file.gets.chomp.split(', ')
+      @file = File.new(filename)
+      @headers = @file.gets.chomp.split(', ')
 
-      file.each do |row|
+      @file.each do |row|
         @csv_contents<< row.chomp.split(', ')
       end
     end
@@ -24,6 +24,14 @@ module ActsAsCsv
     attr_accessor :headers, :csv_contents
     def initialize
       read
+    end
+
+    def each
+      @file.rewind
+      @file.gets # skip headers
+      @file.each do |row|
+        yield row
+      end
     end
   end
 end
@@ -33,6 +41,7 @@ class RubyCsv
   acts_as_csv
 end
 
-m = RubyCsv.new
-puts m.headers.inspect
-puts m.csv_contents.inspect
+csv = RubyCsv.new
+puts csv.headers.inspect
+puts csv.csv_contents.inspect
+csv.each{|row| puts row }
